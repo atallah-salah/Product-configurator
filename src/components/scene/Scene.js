@@ -1,23 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Scene.scss";
 import * as BABYLON from "babylonjs";
 
 const Scene = () => {
+  const [color, colorUpdate] = useState(null);
+  const [texture, textureUpdate] = useState(null);
+
+  let canvas, engine, scene, camera, light;
+
   useEffect(() => {
     // init babylonjs canvas
-    let canvas = document.getElementById("renderCanvas");
-    let engine = new BABYLON.Engine(canvas, true);
-    let scene = new BABYLON.Scene(engine);
-    let camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-    let light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    canvas = document.getElementById("renderCanvas");
+    engine = new BABYLON.Engine(canvas, true);
+    scene = new BABYLON.Scene(engine);
+    camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0, 0, 0), scene);
+    light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 
     camera.attachControl(canvas, true);
-
-    const loadMesh = () => {
-      let sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 2 }, scene);
-    };
-
-    loadMesh();
 
     engine.runRenderLoop(() => {
       scene.render();
@@ -27,12 +26,14 @@ const Scene = () => {
     window.addEventListener("resize", () => {
       engine.resize();
     });
+
+    var myBox = BABYLON.MeshBuilder.CreateBox("myBox", { height: 5, width: 2, depth: 5 }, scene);
   }, []);
 
   return (
-    <div className="Scene">
+    <main role="main" className="col-md-10">
       <canvas id="renderCanvas" />
-    </div>
+    </main>
   );
 };
 
