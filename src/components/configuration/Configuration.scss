@@ -1,0 +1,17 @@
+.card-columns{
+  margin: 1px;
+  .card.card-color-item{
+    background-color: red;
+    // width: 5rem !important;
+    height:  3rem !important;   
+    // padding: 5px;
+    margin: 5px;
+    border: none;
+    .badge{
+      position:absolute;
+      bottom: 0px;
+      right: 0px;
+      border-radius: 0.15rem;
+    }
+  }
+}

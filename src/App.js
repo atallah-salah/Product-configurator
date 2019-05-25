@@ -1,22 +1,22 @@
 import React from "react";
 import "./App.scss";
-
+import { Container, Row } from "react-bootstrap";
 // components
 import NavBar from "./components/navBar/NavBar";
-import Config from "./components/config/Config";
+import LeftNav from "./components/leftNav/LeftNav";
 import Scene from "./components/scene/Scene";
 
 function App() {
   return (
-    <div className="App">
+    <>
       <NavBar />
-      <div className="container-fluid">
-        <div className="row">
-          <Config />
+      <Container fluid>
+        <Row>
+          <LeftNav />
           <Scene />
-        </div>
-      </div>
-    </div>
+        </Row>
+      </Container>
+    </>
   );
 }
 

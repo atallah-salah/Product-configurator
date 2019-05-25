@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./Scene.scss";
+
 import * as BABYLON from "babylonjs";
+
+// styles
+import "./Scene.scss";
+import { Col } from "react-bootstrap";
 
 const Scene = () => {
   const [color, colorUpdate] = useState(null);
@@ -13,10 +17,13 @@ const Scene = () => {
     canvas = document.getElementById("renderCanvas");
     engine = new BABYLON.Engine(canvas, true);
     scene = new BABYLON.Scene(engine);
-    camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0, 0, 0), scene);
+    camera = new BABYLON.ArcRotateCamera("Camera", 1, 3, 30, new BABYLON.Vector3(0, 0, 0), scene);
     light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 
     camera.attachControl(canvas, true);
+    camera.useAutoRotationBehavior = true;
+    // camera.useBouncingBehavior = true;
+    camera.useFramingBehavior = true;
 
     engine.runRenderLoop(() => {
       scene.render();
@@ -31,9 +38,9 @@ const Scene = () => {
   }, []);
 
   return (
-    <main role="main" className="col-md-10">
+    <Col md={10}>
       <canvas id="renderCanvas" />
-    </main>
+    </Col>
   );
 };
 
