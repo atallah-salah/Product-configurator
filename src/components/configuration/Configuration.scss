@@ -1,17 +1,28 @@
 .card-columns{
-  margin: 1px;
-  .card.card-color-item{
-    background-color: red;
+  padding-right: 10px;
+
+
+  // border: #6C757D 1px solid;
+  // border-radius: .4rem;
+  // margin: 5px;
+  .card.card-item{
+    // background-color: red;
+    // background-color: 
     // width: 5rem !important;
     height:  3rem !important;   
     // padding: 5px;
-    margin: 5px;
-    border: none;
+    // margin: 5px;
+    // border: none;
     .badge{
       position:absolute;
       bottom: 0px;
       right: 0px;
-      border-radius: 0.15rem;
+      border-radius: 0.08rem;
     }
   }
+  .card.card-item.active{
+    border:#6C757D 3px solid;
+    transition: 0.1s;
+  }
 }
+

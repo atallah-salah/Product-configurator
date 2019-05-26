@@ -1,6 +1,9 @@
 import React from "react";
+
+// styles
 import "./App.scss";
 import { Container, Row } from "react-bootstrap";
+
 // components
 import NavBar from "./components/navBar/NavBar";
 import LeftNav from "./components/leftNav/LeftNav";
