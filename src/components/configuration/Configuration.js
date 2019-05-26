@@ -5,18 +5,18 @@ import "./Configuration.scss";
 import { Card, CardColumns, Badge } from "react-bootstrap";
 
 const Configuration = (props) => {
-  const defaultItem = props.availableOptionOnSelectedMesh.defaultItem;
-  const [selectedItem, selectItem] = useState({ color: defaultItem.color, texture: defaultItem.texture, index: defaultItem.index, val: defaultItem.color ? props.availableOptionOnSelectedMesh.colors[defaultItem.index].val : props.availableOptionOnSelectedMesh.textures[defaultItem.index].val });
+  const defaultItem = props.data.defaultItem;
+  const [selectedItem, selectItem] = useState({ color: defaultItem.color, texture: defaultItem.texture, index: defaultItem.index, val: defaultItem.color ? props.data.colors[defaultItem.index].val : props.data.textures[defaultItem.index].val });
 
   return (
-    <>
+    <div>
       {/* check if colors array have items */}
-      {props.availableOptionOnSelectedMesh.colors.length > 0 && (
+      {props.data.colors.length > 0 && (
         <Card>
           <Card.Header>Select color :</Card.Header>
           <Card.Body>
             <CardColumns>
-              {props.availableOptionOnSelectedMesh.colors.map((color, i) => {
+              {props.data.colors.map((color, i) => {
                 return (
                   <Card
                     key={i}
@@ -35,12 +35,12 @@ const Configuration = (props) => {
         </Card>
       )}
       {/* check if textures array have items */}
-      {props.availableOptionOnSelectedMesh.textures.length > 0 && (
+      {props.data.textures.length > 0 && (
         <Card>
           <Card.Header>Select Texture :</Card.Header>
           <Card.Body>
             <CardColumns>
-              {props.availableOptionOnSelectedMesh.textures.map((texture, i) => {
+              {props.data.textures.map((texture, i) => {
                 return (
                   <Card
                     key={i}
@@ -58,7 +58,7 @@ const Configuration = (props) => {
           </Card.Body>
         </Card>
       )}
-    </>
+    </div>
   );
 };
 
