@@ -1,37 +1,57 @@
 import React, { useEffect, useState } from "react";
+import { SceneLoader, Engine, Scene, Vector3, ArcRotateCamera, HemisphericLight, Color4 } from "babylonjs";
 
-import * as BABYLON from "babylonjs";
+// modules
+import HighLight from "./../../modules/highLight";
 
 // styles
 import "./Scene.scss";
 import { Col } from "react-bootstrap";
 
-const Scene = () => {
-  let canvas, engine, scene, camera, light;
+// init constant for create scene and canvas in babylonjs
+let canvas, engine, scene, camera, light;
 
-  const [activeMesh, setActiveMesh] = useState(null);
+const SceneFunc = () => {
+  const [activeMeshs, setActiveMeshs] = useState([]);
+  // const [HighLightedMesh, setHighLightMesh] = useState(null);
 
   const importMesh = (meshName) => {
-    BABYLON.SceneLoader.ImportMesh("", "https://www.babylonjs-playground.com/scenes/", `${meshName}.babylon`, scene, function(meshes) {
+    SceneLoader.ImportMesh("", "assets/", `${meshName}.babylon`, scene, function(meshes) {
+      setActiveMeshs([...meshes]);
+
+      meshes.map((mesh, i) => {
+        // console.log(mesh.uniqueId);
+
+        mesh["metaData"] = {
+          configurable: true
+        };
+      });
+
       return meshes;
     });
   };
 
+  // setInitScene(!initScene);
+
   useEffect(() => {
-    // init babylonjs canvas
+    console.log("render useEffect 1");
+
     canvas = document.getElementById("renderCanvas");
-    engine = new BABYLON.Engine(canvas, true);
-    scene = new BABYLON.Scene(engine);
-    camera = new BABYLON.ArcRotateCamera("Camera", 1, 3, 30, new BABYLON.Vector3(0, 0, 0), scene);
-    light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    engine = new Engine(canvas, true);
+    scene = new Scene(engine);
+    camera = new ArcRotateCamera("Camera", 1, 3, 30, new Vector3(0, 0, 0), scene);
+    light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+
     // set camera auto rotate and attach controls
     camera.attachControl(canvas, true);
     camera.useAutoRotationBehavior = true;
     camera.useFramingBehavior = true;
+
     // set canvas background
-    scene.clearColor = new BABYLON.Color4(0.1, 0.5, 1, 1);
+    scene.clearColor = new Color4(0.1, 0.5, 1, 1);
     // camera.useBouncingBehavior = true;
 
+    // start render the scene
     engine.runRenderLoop(() => {
       scene.render();
     });
@@ -41,9 +61,17 @@ const Scene = () => {
       engine.resize();
     });
 
-    // var myBox = BABYLON.MeshBuilder.CreateBox("myBox", { height: 5, width: 2, depth: 5 }, scene);
-    setActiveMesh(importMesh("candle"));
+    // setActiveMesh(importMesh("candle"));
+    importMesh("skull");
+    // HighLight(canvas, scene, activeMeshs);
   }, []);
+
+  useEffect(() => {
+    // check if canvas and scene defined
+    if (canvas && scene) {
+      HighLight(canvas, scene, activeMeshs);
+    }
+  }, [activeMeshs]);
 
   return (
     <Col md={10} className="sceneC">
@@ -52,4 +80,4 @@ const Scene = () => {
   );
 };
 
-export default Scene;
+export default SceneFunc;

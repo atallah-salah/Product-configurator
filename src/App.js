@@ -7,7 +7,7 @@ import { Container, Row } from "react-bootstrap";
 // components
 import NavBar from "./components/navBar/NavBar";
 import LeftNav from "./components/leftNav/LeftNav";
-import Scene from "./components/scene/Scene";
+import SceneFunc from "./components/scene/Scene";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <Container fluid>
         <Row>
           <LeftNav />
-          <Scene />
+          <SceneFunc />
         </Row>
       </Container>
     </>
