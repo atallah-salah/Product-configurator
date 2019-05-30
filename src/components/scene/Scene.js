@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { SceneLoader, Engine, Scene, Vector3, ArcRotateCamera, HemisphericLight, Color4 } from "babylonjs";
-
+import React, { useEffect, useState, useContext } from "react";
+import { SceneLoader, Engine, Scene as BabyLonScene, Vector3, ArcRotateCamera, HemisphericLight, Color4, Layer, StandardMaterial, Color3, Texture, MeshBuilder } from "babylonjs";
+import GlobalStore from "./../../context/GlobalStore";
 // modules
 import HighLight from "./../../modules/highLight";
 
@@ -11,34 +11,61 @@ import { Col } from "react-bootstrap";
 // init constant for create scene and canvas in babylonjs
 let canvas, engine, scene, camera, light;
 
-const SceneFunc = () => {
+const Scene = () => {
   const [activeMeshs, setActiveMeshs] = useState([]);
-  // const [HighLightedMesh, setHighLightMesh] = useState(null);
+  const store = useContext(GlobalStore);
 
   const importMesh = (meshName) => {
     SceneLoader.ImportMesh("", "assets/", `${meshName}.babylon`, scene, function(meshes) {
-      setActiveMeshs([...meshes]);
-
       meshes.map((mesh, i) => {
-        // console.log(mesh.uniqueId);
-
-        mesh["metaData"] = {
-          configurable: true
+        // add fake metadata
+        mesh.metadata = {
+          default: { color: true, texture: false, index: 2 },
+          colors: [{ price: 63, val: [114, 193, 226] }, { price: 6, val: [154, 153, 126] }, { price: 9, val: [14, 223, 126] }, { price: 45, val: [254, 253, 26] }, { price: 5, val: [14, 35, 246] }],
+          textures: [
+            { price: 63, val: "https://www.babylonjs-playground.com/textures/grass.png" },
+            { price: 6, val: "https://images.pexels.com/photos/921776/pexels-photo-921776.jpeg?cs=srgb&dl=backdrop-background-floor-921776.jpg&fm=jpg" },
+            { price: 9, val: "https://cdn-ep19.pressidium.com/wp-content/uploads/2018/09/texture-photography-wood-bark.jpg" }
+          ],
+          replacements: ["mesh", "mesh"]
         };
       });
+      setActiveMeshs([...meshes]);
 
       return meshes;
     });
   };
 
-  // setInitScene(!initScene);
+  const setMeshColor = (color) => {
+    if (store.HighLightedMesh) {
+      if (!store.HighLightedMesh.material) {
+        let material = new StandardMaterial("Material", scene);
+
+        material.diffuseColor = new Color3(color[0] / 255, color[1] / 255, color[2] / 255);
+        store.HighLightedMesh.material = material;
+      } else {
+        store.HighLightedMesh.material.diffuseColor = new Color3(color[0] / 255, color[1] / 255, color[2] / 255);
+      }
+    }
+  };
+
+  const setMeshTexture = (texture) => {
+    if (store.HighLightedMesh) {
+      if (!store.HighLightedMesh.material) {
+        let material = new StandardMaterial("Material", scene);
+
+        material.diffuseTexture = new Texture(texture, scene);
+        store.HighLightedMesh.material = material;
+      } else {
+        store.HighLightedMesh.material.diffuseTexture = new Texture(texture, scene);
+      }
+    }
+  };
 
   useEffect(() => {
-    console.log("render useEffect 1");
-
     canvas = document.getElementById("renderCanvas");
     engine = new Engine(canvas, true);
-    scene = new Scene(engine);
+    scene = new BabyLonScene(engine);
     camera = new ArcRotateCamera("Camera", 1, 3, 30, new Vector3(0, 0, 0), scene);
     light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
 
@@ -49,7 +76,7 @@ const SceneFunc = () => {
 
     // set canvas background
     scene.clearColor = new Color4(0.1, 0.5, 1, 1);
-    // camera.useBouncingBehavior = true;
+    new Layer("back", "assets/377803.jpg", scene);
 
     // start render the scene
     engine.runRenderLoop(() => {
@@ -61,23 +88,41 @@ const SceneFunc = () => {
       engine.resize();
     });
 
-    // setActiveMesh(importMesh("candle"));
     importMesh("skull");
-    // HighLight(canvas, scene, activeMeshs);
   }, []);
 
   useEffect(() => {
     // check if canvas and scene defined
     if (canvas && scene) {
-      HighLight(canvas, scene, activeMeshs);
+      let setHMesh = HighLight(canvas, scene, activeMeshs, store.setHighLightMesh);
     }
   }, [activeMeshs]);
 
+  useEffect(() => {
+    if (store.HighLightedMesh) {
+      store.setColorsList(store.HighLightedMesh.metadata.colors);
+      store.setTexturesList(store.HighLightedMesh.metadata.textures);
+    } else {
+      store.setColorsList([]);
+      store.setTexturesList([]);
+    }
+  }, [store.HighLightedMesh]);
+
+  useEffect(() => {
+    setMeshColor(store.HighLightedMeshColor);
+  }, [store.HighLightedMeshColor]);
+
+  useEffect(() => {
+    setMeshTexture(store.HighLightedMeshTexture);
+  }, [store.HighLightedMeshTexture]);
+
   return (
-    <Col md={10} className="sceneC">
-      <canvas id="renderCanvas" />
-    </Col>
+    <GlobalStore.Provider>
+      <Col md={10} className="sceneC">
+        <canvas id="renderCanvas" />
+      </Col>
+    </GlobalStore.Provider>
   );
 };
 
-export default SceneFunc;
+export default Scene;

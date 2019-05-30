@@ -1,10 +1,11 @@
 
-
+.card-body{
+  padding: 0.2rem !important;
+}
 
 .card-columns{
-  padding-right: 10px;
-
-
+  padding: 5px;
+  grid-column-gap:0.25rem;
   // border: #6C757D 1px solid;
   // border-radius: .4rem;
   // margin: 5px;

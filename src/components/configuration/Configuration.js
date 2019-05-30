@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import GlobalStore from "./../../context/GlobalStore";
 
 // styles
 import "./Configuration.scss";
-import { Card, CardColumns, Badge } from "react-bootstrap";
+import { Card, CardColumns, Badge, Fade } from "react-bootstrap";
 
 const Configuration = (props) => {
   const defaultItem = props.data.defaultItem;
   const [selectedItem, selectItem] = useState({ color: defaultItem.color, texture: defaultItem.texture, index: defaultItem.index, val: defaultItem.color ? props.data.colors[defaultItem.index].val : props.data.textures[defaultItem.index].val });
+  const store = useContext(GlobalStore);
 
   return (
     <div>
-      {/* check if colors array have items */}
-      {props.data.colors.length > 0 && (
+      {/* fade in if colors array have items */}
+      <Fade in={store.colorsList.length > 0}>
         <Card>
           <Card.Header>Select color :</Card.Header>
           <Card.Body>
             <CardColumns>
-              {props.data.colors.map((color, i) => {
+              {store.colorsList.map((color, i) => {
                 return (
                   <Card
                     key={i}
@@ -24,6 +26,7 @@ const Configuration = (props) => {
                     className={selectedItem.color && selectedItem.index === i ? "card-item active" : "card-item"}
                     onClick={() => {
                       selectItem({ color: true, texture: false, index: i, val: color.val });
+                      store.setHighLightMeshColor(color.val);
                     }}
                   >
                     <Badge variant="secondary">${color.price}</Badge>
@@ -33,14 +36,14 @@ const Configuration = (props) => {
             </CardColumns>
           </Card.Body>
         </Card>
-      )}
-      {/* check if textures array have items */}
-      {props.data.textures.length > 0 && (
+      </Fade>
+      {/* fade in if textures array have items */}
+      <Fade in={store.texturesList.length > 0}>
         <Card>
           <Card.Header>Select Texture :</Card.Header>
           <Card.Body>
             <CardColumns>
-              {props.data.textures.map((texture, i) => {
+              {store.texturesList.map((texture, i) => {
                 return (
                   <Card
                     key={i}
@@ -48,6 +51,7 @@ const Configuration = (props) => {
                     className={selectedItem.texture && selectedItem.index === i ? "card-item active" : "card-item"}
                     onClick={() => {
                       selectItem({ color: false, texture: true, index: i, val: texture.val });
+                      store.setHighLightMeshTexture(texture.val);
                     }}
                   >
                     <Badge variant="secondary">${texture.price}</Badge>
@@ -57,7 +61,10 @@ const Configuration = (props) => {
             </CardColumns>
           </Card.Body>
         </Card>
-      )}
+      </Fade>
+
+      {/* fade in if replacment array have items */}
+      {/* replace mesh with other mesh */}
     </div>
   );
 };

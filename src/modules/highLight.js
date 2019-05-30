@@ -1,6 +1,7 @@
 import { HighlightLayer, Color3 } from "babylonjs";
+import React, { useEffect, useState, useContext } from "react";
 
-const HighLight = (canvas, scene, activeMeshes) => {
+const HighLight = (canvas, scene, activeMeshes, setHighLightMesh, HighLightMesh2) => {
   // Create Highlight contanier
   let HighlightLayerArray = new HighlightLayer("HighlightLayerArray", scene);
 
@@ -34,6 +35,9 @@ const HighLight = (canvas, scene, activeMeshes) => {
     // check if there is no highlighted mesh before or if there is highlighted mesh check if it's not equal the last one highlighted
     if (!HighLightedMesh || (HighLightedMesh && HighLightedMesh.uniqueId !== mesh.uniqueId)) {
       HighLightedMesh = mesh;
+      setHighLightMesh(mesh);
+      // HighLightMesh2 = mesh;
+
       HighlightLayerArray.addMesh(mesh, Color3.White());
       // check if thatclick not happen on the same mesh already highlighted before
     } else if (HighLightedMesh.uniqueId !== mesh.uniqueId) {
@@ -46,8 +50,10 @@ const HighLight = (canvas, scene, activeMeshes) => {
     if (Object.keys(HighlightLayerArray._meshes).length) {
       HighlightLayerArray.removeMesh(HighLightedMesh);
       HighLightedMesh = null;
+      setHighLightMesh(null);
     }
   };
+  return setHighLight;
 };
 
 export default HighLight;
