@@ -1,0 +1,15 @@
+.card.product-container{
+    background-color: #435E9A !important;
+    color: white;
+    .card-header{
+        background-color: rgba(150,150,255,.1);
+        border: 0px 3px;
+        border-color: rgba(0, 123, 255, 0.5);
+        border-width: 2px;
+    }
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+    background-color: rgba(150,150,255,.1) !important;
+    color: white !important;
+}

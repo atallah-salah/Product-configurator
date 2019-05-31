@@ -1,0 +1,77 @@
+
+.card.configuration-container{
+    position: absolute !important;
+    left:50%;
+    top: 84%;
+    width: 80%;
+    height: 180px;
+    transform: translate(-50%, -50%);
+    background-color: rgba(1,1,1,.5);
+    border: rgba(0, 123, 255, .5) 2px solid;
+
+    .card-body{
+      color: white;
+      margin:  5px;
+    }
+
+    .card-header{
+      background-color: rgba(150,150,255,.1);
+      padding-bottom: 20px;
+      color: white;
+
+      .nav-item {
+
+        .nav-link{
+          border-width: 2px;
+          outline:none;
+          color: white;
+        }
+        .active{
+          background-color: unset;
+          color: white;
+          border-width: 2px ;
+          border-color:rgba(0, 123, 255, 0.5) ;
+        }
+      }
+    }
+  
+  
+    
+  
+  .card-container-items{
+    overflow: auto;
+    margin: 0px 5px !important;
+    column-count: 10 !important;
+    border-width: 2px;
+    border-color: rgba(0, 123, 255, 0.5); 
+    padding-bottom: 2px ;
+    padding-top: 8px !important;;
+  }
+}
+  .card-container-items .card{
+    border:white 4px solid;
+    height: 80px;
+    margin-bottom: 0 !important; 
+    
+    .badge{
+      background-color: rgba(0, 123, 255, 0.7);
+      position:absolute;
+      bottom: -1px;
+      right: -.8px;
+      border-radius: 0.08rem;
+      padding-top: 0.25em;
+      padding-right: 0.4em;
+      padding-bottom: 0.25em;
+      padding-left: 0.4em;
+    }
+
+  }
+  
+  
+  .card-container-items .card.active{
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.7);
+        border:rgba(0, 70, 150, 1) 3px solid;
+    transition: 0.1s;
+  
+  }  
+  

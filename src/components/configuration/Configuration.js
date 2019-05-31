@@ -3,7 +3,7 @@ import GlobalStore from "./../../context/GlobalStore";
 
 // styles
 import "./Configuration.scss";
-import { Card, CardColumns, Badge, Fade } from "react-bootstrap";
+import { Card, CardColumns, Badge, Fade, Button, Nav } from "react-bootstrap";
 
 const Configuration = (props) => {
   const defaultItem = props.data.defaultItem;
@@ -62,9 +62,9 @@ const Configuration = (props) => {
           </Card.Body>
         </Card>
       </Fade>
-
       {/* fade in if replacment array have items */}
       {/* replace mesh with other mesh */}
+      {/* div new config ext */};
     </div>
   );
 };

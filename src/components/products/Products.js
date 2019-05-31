@@ -6,7 +6,7 @@ import { Card, CardColumns, Badge } from "react-bootstrap";
 
 const Products = (props) => {
   return (
-    <Card>
+    <Card className={"product-container"}>
       <Card.Header>Select product :</Card.Header>
       <Card.Body>
         <CardColumns>

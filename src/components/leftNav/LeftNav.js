@@ -5,12 +5,13 @@ import Configuration from "./../configuration/Configuration";
 import Products from "./../products/Products";
 // styles
 import "./LeftNav.scss";
-import { Col, Tabs, Tab } from "react-bootstrap";
+import { Col, Tabs, Tab, Card, Nav, Button } from "react-bootstrap";
 
 const LeftNav = (props) => {
   return (
-    <Col md={2} className={"leftNav-container"}>
-      <Tabs className="nav-justified" defaultActiveKey="Edit" id="uncontrolled-tab-example">
+    <>
+      {/*  */}
+      <Tabs className="nav-justified" defaultActiveKey="Products" id="uncontrolled-tab-example">
         <Tab eventKey="Edit" title="Edit">
           <Configuration
             HighLightedMesh={props.HighLightedMesh}
@@ -27,11 +28,11 @@ const LeftNav = (props) => {
             }}
           />
         </Tab>
-        <Tab eventKey="Products" title="Products">
+        <Tab eventKey="Products" title="Products" className={"products-tab"}>
           <Products data={{ defaultItem: 0, products: [{ price: 5, imgSrc: "", meshSrc: "" }, { price: 5, imgSrc: "", meshSrc: "" }] }} />
         </Tab>
       </Tabs>
-    </Col>
+    </>
   );
 };
 

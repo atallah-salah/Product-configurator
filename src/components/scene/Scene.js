@@ -20,6 +20,7 @@ const Scene = () => {
       meshes.map((mesh, i) => {
         // add fake metadata
         mesh.metadata = {
+          isReplacement: false,
           default: { color: true, texture: false, index: 2 },
           colors: [{ price: 63, val: [114, 193, 226] }, { price: 6, val: [154, 153, 126] }, { price: 9, val: [14, 223, 126] }, { price: 45, val: [254, 253, 26] }, { price: 5, val: [14, 35, 246] }],
           textures: [
@@ -76,7 +77,7 @@ const Scene = () => {
 
     // set canvas background
     scene.clearColor = new Color4(0.1, 0.5, 1, 1);
-    new Layer("back", "assets/377803.jpg", scene);
+    new Layer("back", "https://static.wixstatic.com/media/806cc1_d5823057614f44889130b0b5bd94873b~mv2_d_1920_1280_s_2.jpg/v1/fill/w_1600,h_1066,al_c,q_90/file.jpg", scene);
 
     // start render the scene
     engine.runRenderLoop(() => {
@@ -88,7 +89,7 @@ const Scene = () => {
       engine.resize();
     });
 
-    importMesh("skull");
+    importMesh("Rabbit");
   }, []);
 
   useEffect(() => {
@@ -118,9 +119,7 @@ const Scene = () => {
 
   return (
     <GlobalStore.Provider>
-      <Col md={10} className="sceneC">
-        <canvas id="renderCanvas" />
-      </Col>
+      <canvas id="renderCanvas" />
     </GlobalStore.Provider>
   );
 };
